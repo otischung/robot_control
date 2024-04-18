@@ -17,7 +17,7 @@ def clamp(value, min_value, max_value):
 class ArmKeyboardController(Node):
     def __init__(self, stdscr):
         super().__init__('arm_keyboard')
-        self._joint_pos_left_min = [math.radians(x) for x in [0, 0, 0, 60, 0]]
+        self._joint_pos_left_min = [math.radians(x) for x in [0, 0, 0, 60, 10]]
         self._joint_pos_left_max = [math.radians(x) for x in [180, 90, 180, 180, 70]]
         self._joint_pos_right_min = [math.radians(x) for x in [0, 80, 0, 0, 0]]
         self._joint_pos_right_max = [math.radians(x) for x in [180, 180, 180, 120, 70]]
@@ -193,35 +193,35 @@ class ArmKeyboardController(Node):
         self.angle_calc(is_left=True, idx=3, is_add=True)
         pass
 
-    def handle_key_v(self):
-        self.stdscr.addstr(f"Left J5 catch")
+    def handle_key_c(self):
+        self.stdscr.addstr(f"Left J5 release")
         self.angle_calc(is_left=True, idx=4, is_add=True)
         pass
 
-    def handle_key_c(self):
-        self.stdscr.addstr(f"Left J5 release")
+    def handle_key_v(self):
+        self.stdscr.addstr(f"Left J5 catch")
         self.angle_calc(is_left=True, idx=4, is_add=False)
         pass
 
     # RIGHT
     def handle_key_i(self):
         self.stdscr.addstr(f"Right J1 up")
-        self.angle_calc(is_left=False, idx=0, is_add=False)
+        self.angle_calc(is_left=False, idx=0, is_add=True)
         pass
 
     def handle_key_k(self):
         self.stdscr.addstr(f"Right J1 down")
-        self.angle_calc(is_left=False, idx=0, is_add=True)
+        self.angle_calc(is_left=False, idx=0, is_add=False)
         pass
 
     def handle_key_l(self):
         self.stdscr.addstr(f"Right J2 up")
-        self.angle_calc(is_left=False, idx=1, is_add=True)
+        self.angle_calc(is_left=False, idx=1, is_add=False)
         pass
 
     def handle_key_j(self):
         self.stdscr.addstr(f"Right J2 down")
-        self.angle_calc(is_left=False, idx=1, is_add=False)
+        self.angle_calc(is_left=False, idx=1, is_add=True)
         pass
 
     def handle_key_comma(self):
@@ -236,22 +236,22 @@ class ArmKeyboardController(Node):
 
     def handle_key_u(self):
         self.stdscr.addstr(f"Right J4 left")
-        self.angle_calc(is_left=False, idx=3, is_add=False)
+        self.angle_calc(is_left=False, idx=3, is_add=True)
         pass
 
     def handle_key_o(self):
         self.stdscr.addstr(f"Right J4 right")
-        self.angle_calc(is_left=False, idx=3, is_add=True)
+        self.angle_calc(is_left=False, idx=3, is_add=False)
         pass
 
     def handle_key_m(self):
         self.stdscr.addstr(f"Right J5 catch")
-        self.angle_calc(is_left=False, idx=4, is_add=True)
+        self.angle_calc(is_left=False, idx=4, is_add=False)
         pass
 
     def handle_key_n(self):
         self.stdscr.addstr(f"Right J5 release")
-        self.angle_calc(is_left=False, idx=4, is_add=False)
+        self.angle_calc(is_left=False, idx=4, is_add=True)
         pass
 
     def handle_key_b(self):
