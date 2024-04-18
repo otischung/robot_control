@@ -30,12 +30,12 @@ class ArmKeyboardController(Node):
 
         self.joint_trajectory_publisher_left_ = self.create_publisher(
             JointTrajectoryPoint,
-            'joint_trajectory_left',
+            'joint_trajectory_point_left',
             10
         )
         self.joint_trajectory_publisher_right_ = self.create_publisher(
             JointTrajectoryPoint,
-            'joint_trajectory_right',
+            'joint_trajectory_point_right',
             10
         )
 

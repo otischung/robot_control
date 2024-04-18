@@ -34,13 +34,13 @@ class ArmSerialWriter(Node):
         # subscribe
         self._subscriber_left = self.create_subscription(
             JointTrajectoryPoint,
-            'joint_trajectory_left',
+            'joint_trajectory_point_left',
             self.listener_callback_left,
             10
         )
         self._subscriber_right = self.create_subscription(
             JointTrajectoryPoint,
-            'joint_trajectory_right',
+            'joint_trajectory_point_right',
             self.listener_callback_right,
             10
         )
