@@ -25,6 +25,25 @@ from .env import ARM_SERIAL_PORT_LEFT, ARM_SERIAL_PORT_RIGHT
 class ArmSerialReader(Node):
     def __init__(self):
         super().__init__('arm_serial_reader')
+        self.declare_parameters(
+            namespace='',
+            parameters=[
+                ("left", 0),
+                ("right", 1)
+            ]
+        )
+
+        left, right = self.get_parameters(["left", "right"])
+        ARM_SERIAL_PORT_LEFT = f"/dev/ttyUSB{left.value}"
+        ARM_SERIAL_PORT_RIGHT = f"/dev/ttyUSB{right.value}"
+        if left is not None:
+            if type(left.value) is int:
+                if left.value >= 0:
+                    ARM_SERIAL_PORT_LEFT = f"/dev/ttyUSB{left.value}"
+        if right is not None:
+            if type(right.value) is int:
+                if right.value >= 0:
+                    ARM_SERIAL_PORT_RIGHT = f"/dev/ttyUSB{right.value}"
 
         # Set up the serial connection
         serial_port_left = self.declare_parameter('serial_port_left', ARM_SERIAL_PORT_LEFT).value

@@ -39,8 +39,6 @@
 
 ## Usage
 
-- We've defined the `ttyUSB0` to be the **left** robot arm and the `ttyUSB1` to be the **right** robot arm.
-
 1. In the arm-control board, run the robot control shell script to create the container.
 
 2. Run `colcon build --symlink-install` to build the project "robot_control".
@@ -52,3 +50,12 @@
    ros2 run robot_control arm_keyboard
    ```
 
+- We've defined the `ttyUSB0` to be the **left** robot arm and the `ttyUSB1` to be the **right** robot arm.
+
+- If the order of the ttyUSB ID is not like we expected, then you can pass the argument into the ROS node to specify the IDs.
+
+  ```bash
+  ros2 run robot_control arm_writer --ros-args -p left:=0 -p right:=1
+  ```
+
+- The setup method is same for `arm_reader`.
