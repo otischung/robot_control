@@ -266,7 +266,7 @@ class ArmKeyboardController(Node):
         self.wave_hand_macro()
 
     def wave_hand_macro(self):
-        interval = 0.2
+        interval = 1
         # Reset
         self.handle_key_b()
         self.pub_arm()
