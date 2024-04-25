@@ -106,6 +106,8 @@ class ArmKeyboardController(Node):
                         self.handle_key_m()
                     elif c == ord('b'):
                         self.handle_key_b()
+                    elif c == ord('2'):
+                        self.handle_key_2()
                     elif c == ord('1'):  # Exit on '1'
                         self.joint_pos_left = self._init_joint_pos_left
                         self.joint_pos_right = self._init_joint_pos_right
@@ -259,6 +261,45 @@ class ArmKeyboardController(Node):
         self.stdscr.addstr(f"Reset")
         self.joint_pos_left = copy.deepcopy(self._init_joint_pos_left)
         self.joint_pos_right = copy.deepcopy(self._init_joint_pos_right)
+
+    def handle_key_2(self):
+        self.wave_hand_macro()
+
+    def wave_hand_macro(self):
+        interval = 0.2
+        # Reset
+        self.handle_key_b()
+        self.pub_arm()
+        # Raise hands
+        self.joint_pos_left = [math.radians(x) for x in [90, 10, 90, 90, 30]]
+        self.joint_pos_right = [math.radians(x) for x in [80, 170, 90, 90, 30]]
+        self.pub_arm()
+        time.sleep(interval)
+        while True:
+            # Wave left
+            self.joint_pos_left = [math.radians(x) for x in [90, 10, 30, 90, 30]]
+            self.joint_pos_right = [math.radians(x) for x in [80, 170, 30, 90, 30]]
+            self.pub_arm()
+            time.sleep(interval)
+            # Wave right
+            self.joint_pos_left = [math.radians(x) for x in [90, 10, 150, 90, 30]]
+            self.joint_pos_right = [math.radians(x) for x in [80, 170, 150, 90, 30]]
+            self.pub_arm()
+            time.sleep(interval)
+
+            c = self.stdscr.getch()
+            # Check if a key was actually pressed
+            if c != curses.ERR:
+                self.key_in_count += 1
+                self.print_basic_info(c)
+                if c == ord('1'):  # Exit on '1'
+                    self.handle_key_b()
+                    self.pub_arm()
+                    break
+                print()
+            else:
+                self.print_basic_info(ord(' '))
+                time.sleep(0.01)
 
 
 # ... Rest of your code, e.g. initializing rclpy and running the node
