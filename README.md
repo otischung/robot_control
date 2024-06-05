@@ -56,6 +56,7 @@
 
   ```bash
   ros2 run robot_control arm_writer --ros-args -p left:=0 -p right:=1
+  ros2 run robot_control arm_writer --ros-args -p left:=/dev/ttyACM0 -p right:=/dev/ttyUSB0
   ```
 
 - The setup method is same for `arm_reader`.

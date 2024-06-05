@@ -271,19 +271,19 @@ class ArmKeyboardController(Node):
         self.handle_key_b()
         self.pub_arm()
         # Raise hands
-        self.joint_pos_left = [math.radians(x) for x in [90, 10, 90, 90, 30]]
+        # self.joint_pos_left = [math.radians(x) for x in [90, 10, 90, 90, 30]]
         self.joint_pos_right = [math.radians(x) for x in [80, 170, 90, 90, 30]]
         self.pub_arm()
         time.sleep(interval)
         while True:
             # Wave left
-            self.joint_pos_left = [math.radians(x) for x in [90, 10, 30, 90, 30]]
-            self.joint_pos_right = [math.radians(x) for x in [80, 170, 30, 90, 30]]
+            # self.joint_pos_left = [math.radians(x) for x in [90, 10, 80, 90, 30]]
+            self.joint_pos_right = [math.radians(x) for x in [80, 170, 80, 90, 30]]
             self.pub_arm()
             time.sleep(interval)
             # Wave right
-            self.joint_pos_left = [math.radians(x) for x in [90, 10, 150, 90, 30]]
-            self.joint_pos_right = [math.radians(x) for x in [80, 170, 150, 90, 30]]
+            # self.joint_pos_left = [math.radians(x) for x in [90, 10, 100, 90, 30]]
+            self.joint_pos_right = [math.radians(x) for x in [80, 170, 100, 90, 30]]
             self.pub_arm()
             time.sleep(interval)
 

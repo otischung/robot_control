@@ -16,6 +16,7 @@ import math
 import orjson
 import rclpy
 from rclpy.node import Node
+from rclpy.parameter import Parameter
 from serial import Serial
 from trajectory_msgs.msg import JointTrajectoryPoint
 from .env import ARM_SERIAL_PORT_LEFT, ARM_SERIAL_PORT_RIGHT
@@ -24,25 +25,32 @@ from .env import ARM_SERIAL_PORT_LEFT, ARM_SERIAL_PORT_RIGHT
 class ArmSerialWriter(Node):
     def __init__(self):
         super().__init__('arm_serial_writer')
-        self.declare_parameters(
-            namespace='',
-            parameters=[
-                ("left", 0),
-                ("right", 1)
-            ]
-        )
+        # self.declare_parameters(
+        #     namespace='',
+        #     parameters=[
+        #         ("left", 0),
+        #         ("right", 1)
+        #     ]
+        # )
 
-        left, right = self.get_parameters(["left", "right"])
-        ARM_SERIAL_PORT_LEFT = f"/dev/ttyUSB{left.value}"
-        ARM_SERIAL_PORT_RIGHT = f"/dev/ttyUSB{right.value}"
-        if left is not None:
-            if type(left.value) is int:
-                if left.value >= 0:
-                    ARM_SERIAL_PORT_LEFT = f"/dev/ttyUSB{left.value}"
-        if right is not None:
-            if type(right.value) is int:
-                if right.value >= 0:
-                    ARM_SERIAL_PORT_RIGHT = f"/dev/ttyUSB{right.value}"
+        # left, right = self.get_parameters(["left", "right"])
+        # ARM_SERIAL_PORT_LEFT = f"/dev/ttyUSB{left.value}"
+        # ARM_SERIAL_PORT_RIGHT = f"/dev/ttyUSB{right.value}"
+        # if left is not None:
+        #     if type(left.value) is int:
+        #         if left.value >= 0:
+        #             ARM_SERIAL_PORT_LEFT = f"/dev/ttyUSB{left.value}"
+        #     elif left.type == Parameter.Type.STRING:
+        #         ARM_SERIAL_PORT_LEFT = left.value
+        # if right is not None:
+        #     if type(right.value) is int:
+        #         if right.value >= 0:
+        #             ARM_SERIAL_PORT_RIGHT = f"/dev/ttyUSB{right.value}"
+        #     elif right.type == Parameter.Type.STRING:
+        #         ARM_SERIAL_PORT_RIGHT = right.value
+
+        ARM_SERIAL_PORT_LEFT = "/dev/ttyACM0"
+        ARM_SERIAL_PORT_RIGHT = "/dev/ttyUSB0"
 
         # Set up the serial connection
         serial_port_left = self.declare_parameter('serial_port_left', ARM_SERIAL_PORT_LEFT).value
