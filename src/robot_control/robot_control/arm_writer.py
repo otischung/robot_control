@@ -17,6 +17,7 @@ import orjson
 import rclpy
 from rclpy.node import Node
 from rclpy.parameter import Parameter
+from rcl_interfaces.msg import ParameterDescriptor, ParameterType
 from serial import Serial
 from trajectory_msgs.msg import JointTrajectoryPoint
 from .env import ARM_SERIAL_PORT_LEFT, ARM_SERIAL_PORT_RIGHT
@@ -25,32 +26,43 @@ from .env import ARM_SERIAL_PORT_LEFT, ARM_SERIAL_PORT_RIGHT
 class ArmSerialWriter(Node):
     def __init__(self):
         super().__init__('arm_serial_writer')
-        # self.declare_parameters(
-        #     namespace='',
-        #     parameters=[
-        #         ("left", 0),
-        #         ("right", 1)
-        #     ]
-        # )
+        left_descriptor = ParameterDescriptor(
+            name="left",
+            type=ParameterType.PARAMETER_STRING,
+            description="This defines the device of the left ESP32.",
+            dynamic_typing=True
+        )
+        right_descriptor = ParameterDescriptor(
+            name="right",
+            type=ParameterType.PARAMETER_STRING,
+            description="This defines the device of the right ESP32.",
+            dynamic_typing=True
+        )
+        self.declare_parameter("left", "/dev/ttyACM0", left_descriptor)
+        self.declare_parameter("right", "/dev/ttyUSB0", right_descriptor)
 
-        # left, right = self.get_parameters(["left", "right"])
-        # ARM_SERIAL_PORT_LEFT = f"/dev/ttyUSB{left.value}"
-        # ARM_SERIAL_PORT_RIGHT = f"/dev/ttyUSB{right.value}"
-        # if left is not None:
-        #     if type(left.value) is int:
-        #         if left.value >= 0:
-        #             ARM_SERIAL_PORT_LEFT = f"/dev/ttyUSB{left.value}"
-        #     elif left.type == Parameter.Type.STRING:
-        #         ARM_SERIAL_PORT_LEFT = left.value
-        # if right is not None:
-        #     if type(right.value) is int:
-        #         if right.value >= 0:
-        #             ARM_SERIAL_PORT_RIGHT = f"/dev/ttyUSB{right.value}"
-        #     elif right.type == Parameter.Type.STRING:
-        #         ARM_SERIAL_PORT_RIGHT = right.value
+        ARM_SERIAL_PORT_LEFT = self.get_parameter("left").value
+        ARM_SERIAL_PORT_RIGHT = self.get_parameter("right").value
 
-        ARM_SERIAL_PORT_LEFT = "/dev/ttyACM0"
-        ARM_SERIAL_PORT_RIGHT = "/dev/ttyUSB0"
+        # Try to parse as an integer
+        try:
+            left_value = int(ARM_SERIAL_PORT_LEFT)
+            self.get_logger().info(f'Parameter left is an integer: {ARM_SERIAL_PORT_LEFT}')
+            ARM_SERIAL_PORT_LEFT = f"/dev/ttyUSB{left_value}"
+        except ValueError:
+            self.get_logger().info(f'Parameter left is NOT an integer: {ARM_SERIAL_PORT_LEFT}')
+
+        try:
+            right_value = int(ARM_SERIAL_PORT_RIGHT)
+            self.get_logger().info(f'Parameter right is an integer: {ARM_SERIAL_PORT_RIGHT}')
+            ARM_SERIAL_PORT_RIGHT = f"/dev/ttyUSB{right_value}"
+        except ValueError:
+            self.get_logger().info(f'Parameter left is NOT an integer: {ARM_SERIAL_PORT_RIGHT}')
+
+        self.get_logger().info("--------------------------------------")
+        self.get_logger().info(f"Setting left to {ARM_SERIAL_PORT_LEFT}")
+        self.get_logger().info(f"Setting right to {ARM_SERIAL_PORT_RIGHT}")
+        self.get_logger().info("--------------------------------------")
 
         # Set up the serial connection
         serial_port_left = self.declare_parameter('serial_port_left', ARM_SERIAL_PORT_LEFT).value

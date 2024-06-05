@@ -52,11 +52,24 @@
 
 - We've defined the `ttyUSB0` to be the **left** robot arm and the `ttyUSB1` to be the **right** robot arm.
 
-- If the order of the ttyUSB ID is not like we expected, then you can pass the argument into the ROS node to specify the IDs.
+- If the order of the `ttyUSB` ID is not like we expected, then you can pass the argument into the ROS node.
+
+- If the argument is string, then it will be set directly.
+
+  ```bash
+  ros2 run robot_control arm_writer --ros-args -p left:=/dev/ttyACM0 -p right:=/dev/ttyUSB0
+  ```
+  
+- If the argument is integer, then this integer will be appended to `/dev/ttyUSB`. 
 
   ```bash
   ros2 run robot_control arm_writer --ros-args -p left:=0 -p right:=1
-  ros2 run robot_control arm_writer --ros-args -p left:=/dev/ttyACM0 -p right:=/dev/ttyUSB0
+  ```
+
+  This is same as
+
+  ```bash
+  ros2 run robot_control arm_writer --ros-args -p left:=/dev/ttyUSB0 -p right:=/dev/ttyUSB1
   ```
 
 - The setup method is same for `arm_reader`.
