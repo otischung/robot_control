@@ -18,6 +18,12 @@
 
 
 
+## Project Architecture
+
+![robot_arm_architecture.drawio](D:\workspace\screamlab\robot_control\img\robot_arm_architecture.drawio.svg)
+
+
+
 ## Prerequisites and Installations
 
  Below are the devices we need.
