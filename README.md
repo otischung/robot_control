@@ -20,7 +20,7 @@
 
 ## Project Architecture
 
-![robot_arm_architecture.drawio](D:\workspace\screamlab\robot_control\img\robot_arm_architecture.drawio.svg)
+![robot_arm_architecture.drawio](./img/robot_arm_architecture.drawio.svg)
 
 
 
